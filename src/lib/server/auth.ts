@@ -2,9 +2,11 @@ import path from 'node:path';
 
 import { betterAuth } from 'better-auth';
 import { APIError } from 'better-auth/api';
+import { getMigrations } from 'better-auth/db/migration';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 import Database from 'better-sqlite3';
 
+import { building } from '$app/env';
 import { getRequestEvent } from '$app/server';
 import {
 	ALLOWED_EMAIL_DOMAIN,
@@ -65,3 +67,8 @@ export const auth = betterAuth({
 	// Must be the last plugin — it attaches Set-Cookie headers to the SvelteKit response.
 	plugins: [sveltekitCookies(getRequestEvent)]
 });
+
+if (!building) {
+	const { runMigrations } = await getMigrations(auth.options);
+	await runMigrations();
+}
