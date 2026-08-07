@@ -11,9 +11,8 @@ Built with SvelteKit (async SSR + remote functions), Tailwind CSS 4, shadcn-svel
 
 - **Workflows** — paged list of all workflows with status and name filters
   - Cancel a PENDING / ENQUEUED / DELAYED workflow
-  - Delete a workflow (only allowed for CANCELLED or SUCCESS workflows; enforced server-side)
+  - Delete a CANCELLED / SUCCESS / ERROR workflows; enforced server-side
   - Fork a workflow from a chosen start step
-- **Queues** — paged list of queued workflows, filterable by queue name, with the same actions
 - **Schedules** — list workflow schedules (cron, status, timezone, queue, last fired) and delete them
 
 ## Configuration
@@ -46,7 +45,7 @@ and accounts are stored in a local SQLite file (`auth.db` at the project root, g
    BETTER_AUTH_SECRET=...      # generate with `openssl rand -base64 32`
    BETTER_AUTH_URL=http://localhost:5173
 
-   # optional — restrict sign-in to a single Google Workspace domain
+   # restrict sign-in to a single Google Workspace domain
    ALLOWED_EMAIL_DOMAIN=example.com
    ```
 
